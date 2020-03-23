@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DucksApp", "DucksApp\DucksApp.csproj", "{903EC5C7-08EE-4A48-ABBD-8313889E11F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DucksApp.Services", "DucksApp.Services\DucksApp.Services.csproj", "{3FC12CD4-1BC2-4C15-96D9-D2C0A5476092}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{903EC5C7-08EE-4A48-ABBD-8313889E11F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{903EC5C7-08EE-4A48-ABBD-8313889E11F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{903EC5C7-08EE-4A48-ABBD-8313889E11F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{903EC5C7-08EE-4A48-ABBD-8313889E11F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FC12CD4-1BC2-4C15-96D9-D2C0A5476092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC12CD4-1BC2-4C15-96D9-D2C0A5476092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC12CD4-1BC2-4C15-96D9-D2C0A5476092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC12CD4-1BC2-4C15-96D9-D2C0A5476092}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {835A7D1D-BC2C-4622-87FC-4856163D953F}
+	EndGlobalSection
+EndGlobal
