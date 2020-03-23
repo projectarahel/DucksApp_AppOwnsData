@@ -18,46 +18,113 @@
     return;
 }
 
-<div id="embed-container" style="width:100%;height:800px;">
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <button id="btnRefreshReportDataset" type="button" class="btn btn-primary">Refresh Dataset</button>
+        <button id="btnRefreshReport" type="button" class="btn btn-primary">Refresh Report</button>
+    </div>
+</div>
 
+<br />
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div id="reportContainer" style="width:100%;height:800px;"></div>
+    </div>
 </div>
 
 @section scripts {
     <script>
-    // Read embed application token from Model
-    var accessToken = "@Model.EmbedToken.Token";
+        // Read embed application token from Model
+        var accessToken = "@Model.EmbedToken.Token";
 
-    // Read embed URL from Model
-    var embedUrl = "@Html.Raw(Model.EmbedUrl)";
+        // Read embed URL from Model
+        var embedUrl = "@Html.Raw(Model.EmbedUrl)";
 
-    // Read report Id from Model
-    var embedReportId = "@Model.Id";
+        // Read report Id from Model
+        var embedReportId = "@Model.Id";
 
-    // Get models. models contains enums that can be used.
-    var models = window['powerbi-client'].models;
+        // Get models. models contains enums that can be used.
+        var models = window['powerbi-client'].models;
 
-    // Embed configuration used to describe the what and how to embed.
-    // This object is used when calling powerbi.embed.
-    // This also includes settings and options such as filters.
-    // You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
+        // Embed configuration used to describe the what and how to embed.
+        // This object is used when calling powerbi.embed.
+        // This also includes settings and options such as filters.
+        // You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
 
-    var config = {
-        type: 'report',
-        tokenType: models.TokenType.Embed,
-        accessToken: accessToken,
-        embedUrl: embedUrl,
-        id: embedReportId,
-        permissions: models.Permissions.All,
-        settings: {
-            filterPaneEnabled: true,
-            navContentPaneEnabled: true
+        var config = {
+            type: 'report',
+            tokenType: models.TokenType.Embed,
+            accessToken: accessToken,
+            embedUrl: embedUrl,
+            id: embedReportId,
+            permissions: models.Permissions.All,
+            settings: {
+                filterPaneEnabled: true,
+                navContentPaneEnabled: true
+            }
+        };
+
+        // Get a reference to the embedded report HTML element
+        var reportContainer = $('#reportContainer')[0];
+
+        // Embed the report and display it within the div container.
+        powerbi.embed(reportContainer, config);
+
+        $('#btnRefreshReportDataset').click(function () {
+            var btnRefreshDataset = $(this);
+            var btnRefreshReport = $('#btnRefreshReport');
+
+            btnRefreshDataset.attr('disabled', true);
+            btnRefreshDataset.text('Refreshing dataset...');
+            btnRefreshReport.attr('disabled', true);
+
+            $.when(refreshDataset()).done(function (d) {
+                var refresDatasethMessage = d ? 'Refresh dataset completed!' : 'An error has occurred while refreshing the dataset!';
+
+                setTimeout(function () {
+                    alert(refresDatasethMessage);
+                    btnRefreshDataset.text('Refresh Dataset');
+                btnRefreshDataset.attr('disabled', false);
+
+                btnRefreshReport.attr('disabled', false);
+                }, 10000);
+
+            });
+        });
+
+        $('#btnRefreshReport').click(function () {
+            var btnRefreshReport = $(this);
+            var btnRefreshDataset = $('#btnRefreshReportDataset');
+
+            btnRefreshReport.attr('disabled', true);
+            btnRefreshReport.text('Refreshing report...');
+            btnRefreshDataset.attr('disabled', true);
+
+            powerbi.get(reportContainer).refresh();
+
+            setTimeout(function () {
+                btnRefreshReport.text('Refresh Report');
+                btnRefreshReport.attr('disabled', false);
+
+                btnRefreshDataset.attr('disabled', false);
+            }, 17000);
+        });
+
+        function refreshDataset() {
+            var defer = $.Deferred();
+
+            $.ajax({
+                url: '/Home/RefreshDataSet/',
+                method: 'get',
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data)
+                        defer.resolve(data);
+                }
+            });
+
+            return defer.promise();
         }
-    };
-
-    // Get a reference to the embedded report HTML element
-    var reportContainer = $('#embed-container')[0];
-
-    // Embed the report and display it within the div container.
-    powerbi.embed(reportContainer, config);
     </script>
 }

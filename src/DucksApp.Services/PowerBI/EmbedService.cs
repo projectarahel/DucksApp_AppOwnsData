@@ -39,7 +39,7 @@ namespace Who.Whedashboard.Services.PowerBI
             _embedConfig = new EmbedConfig();
         }
 
-        public async Task<bool> SetTokenCredentialsAsync()
+        private async Task<bool> SetTokenCredentialsAsync()
         {
             // Get token credentials for user
             return await GetTokenCredentialsAsync();
@@ -200,14 +200,31 @@ namespace Who.Whedashboard.Services.PowerBI
             return true;
         }
 
-        public async Task RefreshDatasetAsync()
+        public async Task<bool> RefreshDatasetAsync()
         {
-            if (this._tokenCredentials != null)
-                // Create a Power BI Client object. It will be used to call Power BI APIs.
-                using (var client = new PowerBIClient(new Uri(ApiUrl), _tokenCredentials))
+            var hasTokenCredentials = this._tokenCredentials != null;
+
+            if (!hasTokenCredentials)
+                hasTokenCredentials = await SetTokenCredentialsAsync();
+
+            if (hasTokenCredentials)
+            {
+                try
                 {
-                    await client.Datasets.RefreshDatasetInGroupAsync(WorkspaceId, DatasetId);
+                    // Create a Power BI Client object. It will be used to call Power BI APIs.
+                    using (var client = new PowerBIClient(new Uri(ApiUrl), _tokenCredentials))
+                    {
+                        await client.Datasets.RefreshDatasetInGroupAsync(WorkspaceId, DatasetId);
+                        return true;
+                    }
                 }
+                catch (HttpOperationException exc)
+                {
+                    _embedConfig.ErrorMessage = string.Format("Status: {0} ({1})\r\nResponse: {2}\r\nRequestId: {3}", exc.Response.StatusCode, (int)exc.Response.StatusCode, exc.Response.Content, exc.Response.Headers["RequestId"].FirstOrDefault());
+                }
+            }
+
+            return false;
         }
     }
 }

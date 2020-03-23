@@ -20,6 +20,13 @@ namespace DucksApp.Controllers
             return View(embedService.EmbedConfig);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> RefreshDataSet()
+        {
+            var test = await embedService.RefreshDatasetAsync();
+            return Json(test, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

@@ -7,6 +7,6 @@ namespace Who.Whedashboard.Services.PowerBI
     {
         Task SetReportEmbedConfigAsync();
         EmbedConfig EmbedConfig { get; }
-        Task RefreshDatasetAsync();
+        Task<bool> RefreshDatasetAsync();
     }
 }
