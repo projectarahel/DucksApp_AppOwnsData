@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Who.Whedashboard.Services.PowerBI;
+using DucksApp.Services.PowerBI;
 
 namespace DucksApp.Controllers
 {

@@ -1,7 +1,7 @@
 ﻿using DucksApp.Services.Models;
 using System.Threading.Tasks;
 
-namespace Who.Whedashboard.Services.PowerBI
+namespace DucksApp.Services.PowerBI
 {
     public interface IEmbedService
     {

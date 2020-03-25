@@ -8,7 +8,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Who.Whedashboard.Services.PowerBI
+namespace DucksApp.Services.PowerBI
 {
     public class EmbedService : IEmbedService
     {
